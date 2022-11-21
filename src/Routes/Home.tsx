@@ -4,6 +4,7 @@ import { makeImagePath } from "../utils";
 import styled from "styled-components";
 import {motion, AnimatePresence} from "framer-motion"
 import { useState } from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 
 const Wrapper = styled.div`
@@ -69,7 +70,7 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   &: last-child {
     transform-origin: center right
   }
-
+  cursor: pointer;
 `;
 
 const Info = styled(motion.div)`
@@ -128,6 +129,8 @@ const boxVariants = {
 };
 
 function Home() {
+  const history = useHistory();
+  const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
   const { data, isLoading } = useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMovies);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -141,6 +144,9 @@ function Home() {
     }
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
+  const onBoxClicked = (movieId: number) => {
+    history.push(`/movies/${movieId}`);
+  };
   return (
     <Wrapper>
     {isLoading ? (
@@ -169,6 +175,8 @@ function Home() {
                   .slice(offset * index, offset * index + offset)
                   .map((movie) => (
                     <Box
+                      layoutId={movie.id + ""}
+                      onClick={() => onBoxClicked(movie.id)}
                       variants={boxVariants}
                       whileHover="hover"
                       initial="normal"
@@ -186,6 +194,23 @@ function Home() {
               </Row>
             </AnimatePresence>
           </Slider>
+          <AnimatePresence>
+            {bigMovieMatch ? (
+              <motion.div
+                layoutId={bigMovieMatch.params.movieId}
+                style={{
+                  position: "absolute",
+                  width: "40vw",
+                  height: "80vh",
+                  backgroundColor: "red",
+                  top: 50,
+                  left: 0,
+                  right: 0,
+                  margin: "0 auto",
+                }}
+              />
+            ) : null}
+          </AnimatePresence>
       </>
     )}
   </Wrapper>
