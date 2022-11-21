@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/wujuflix/static/js/main.add047e9.js",
+    "main.js": "/wujuflix/static/js/main.c454c9e0.js",
     "index.html": "/wujuflix/index.html",
-    "main.add047e9.js.map": "/wujuflix/static/js/main.add047e9.js.map"
+    "main.c454c9e0.js.map": "/wujuflix/static/js/main.c454c9e0.js.map"
   },
   "entrypoints": [
-    "static/js/main.add047e9.js"
+    "static/js/main.c454c9e0.js"
   ]
 }
